@@ -85,3 +85,69 @@ list(res)
 ```
 [(32683,)]
 ```
+
+Корсор или соединение, как правило, возвращают просто кортежи:
+
+```python
+res = con.execute('select * from works limit 3')
+
+for r in res:
+    print(r)
+```
+
+```
+('60000', 'Высшее', 'Специалист пресс-службы', 'Магистр', 'Мужской', '2021-04-01', '<p>Аналитическое&nbsp;мышление,&nbsp;<span class="s6"><span class="bumpedFont15">ответственность, </span></span><span class="s6"><span class="bumpedFont15">стабильность психологического состояния и настроения.&nbsp;</span></span></p>', '')
+('85000', 'Высшее', 'менеджер проектов', '', 'Мужской', '2021-04-01', '', '')
+('15000', 'Среднее профессиональное', '....', '', 'Женский', '2021-06-01', '', '')
+```
+
+Это иногда бывает неудобно. Можно сделать обертку для получения словарей.
+
+```python
+from pprint import pprint
+
+def dict_factory(cursor, row): 
+    # обертка для преобразования 
+    # полученной строки. (взята из документации)
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
+
+con.row_factory = dict_factory
+
+res = con.execute('select * from works limit 3')
+
+pprint(list(res))
+```
+
+```python
+[{'dateModify': '2021-04-01',
+  'educationType': 'Высшее',
+  'gender': 'Мужской',
+  'jobTitle': 'Специалист пресс-службы',
+  'otherInfo': '',
+  'qualification': 'Магистр',
+  'salary': '60000',
+  'skills': '<p>Аналитическое&nbsp;мышление,&nbsp;<span class="s6"><span '
+            'class="bumpedFont15">ответственность, </span></span><span '
+            'class="s6"><span class="bumpedFont15">стабильность '
+            'психологического состояния и настроения.&nbsp;</span></span></p>'},
+ {'dateModify': '2021-04-01',
+  'educationType': 'Высшее',
+  'gender': 'Мужской',
+  'jobTitle': 'менеджер проектов',
+  'otherInfo': '',
+  'qualification': '',
+  'salary': '85000',
+  'skills': ''},
+ {'dateModify': '2021-06-01',
+  'educationType': 'Среднее профессиональное',
+  'gender': 'Женский',
+  'jobTitle': '....',
+  'otherInfo': '',
+  'qualification': '',
+  'salary': '15000',
+  'skills': ''}]
+```
