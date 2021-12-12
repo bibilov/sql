@@ -4,7 +4,7 @@
 
 [SQLite](https://sqlite.org) не является клиент-серверной СУБД, она работает на уровне библиотек как файловое хранилище с реляционной БД и возможностью SQL-запросов.
 
-В Питоне она поддерживается встреоенной библиотекой [sqlite3](https://docs.python.org/3/library/sqlite3.html).
+В Питоне она поддерживается встроенной библиотекой [sqlite3](https://docs.python.org/3/library/sqlite3.html).
 
 Кроме того, доступен [клиент](https://sqlite.org/cli.html), куда можно писать SQL-запросы вне python-кода. Еще с базой можно взаимодействовать через GUI в плагинах для современных браузерах.
 
@@ -181,8 +181,16 @@ pprint(list(res))
 
 ### Скилы и `otherInfo`
 
-Эти поля крайне засорены html. Например, в самое блиное поисание скилов занимает 11Кб.
+Эти поля крайне засорены HTML-разметкой. Например, самое длинное описание скилов занимает 11Кб.
 
 ```
 <span class="bloko-tag bloko-tag_inline bloko-tag_countable Bloko-TagList-Tag" data-tag-id="1518" data-qa="bloko-tag_inline"><span class="bloko-tag__layout-slim"><span class="bloko-tag__section bloko-tag__section_stretched" title="Активные продажи"><span class="bloko-tag__section-text Bloko-TagList-Text" data-qa="bloko-tag__text">Активные продажи</span>
 ```
+
+* Очистите эти поля от HTML.
+* Отдельная таблица для скилов. Попытайтесь свести все разнообразие к небольшому количеству.
+* Отдельная таблица личных качеств на основе `otherInfo`. Попытайтесь свести все разнообразие к небольшому количеству прилагательных (используйте библиотеки для NLP): 
+   * коммуникабелен, 
+   * целеустремлен,
+   * трудоголик,
+   * ...
