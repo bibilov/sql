@@ -70,3 +70,18 @@ sqlite> select count(*) from works;
 32683
 Run Time: real 0.003 user 0.000000 sys 0.002572
 ```
+
+## Работа из Python
+
+```python
+import sqlite3 
+
+
+con = sqlite3.connect('works.sqlite')
+res = con.execute('select count(*) from works;') # Вернется итератор.
+list(res)
+```
+
+```
+[(32683,)]
+```
