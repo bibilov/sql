@@ -61,3 +61,12 @@ CREATE TABLE works(
 sqlite> select count(*) from works;
 32683
 ```
+
+Можно включить замеры времени в запросах:
+
+```
+sqlite> .timer ON
+sqlite> select count(*) from works;
+32683
+Run Time: real 0.003 user 0.000000 sys 0.002572
+```
